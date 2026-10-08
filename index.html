@@ -10,11 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" rel="stylesheet">
 <style>
 .material-symbols-outlined{font-size:22px;vertical-align:middle} .tab{display:inline-flex;align-items:center;gap:7px}
-:root{
-  --bg:#f5f7fb;--card:#fff;--text:#18202a;--muted:#687384;
-  --accent:#6750a4;--accent2:#eaddff;--line:#dfe3ea;--ok:#167c4b;--bad:#b3261e;
-  --sender:#e8f0fe;--receiver:#f3e8ff;
-}
+:root{--bg:#f5f7fb;--card:#fff;--text:#18202a;--muted:#687384;--accent:#6750a4;--accent2:#eaddff;--line:#dfe3ea;--ok:#167c4b;--bad:#b3261e;--sender:#e8f0fe;--receiver:#f3e8ff}
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
 header{padding:28px 20px 18px;max-width:1100px;margin:auto}
@@ -24,7 +20,7 @@ nav{display:flex;gap:8px;flex-wrap:wrap;max-width:1100px;margin:0 auto 18px;padd
 button,.tab{border:0;border-radius:14px;padding:11px 15px;font:inherit;cursor:pointer}
 .tab{background:var(--card);color:var(--text);box-shadow:0 1px 4px #0001}
 .tab.active{background:var(--accent);color:white}
-.tab .beta{font-size:10px;background:#e65100;color:#fff;padding:2px 6px;border-radius:6px;margin-left:4px;font-weight:700;letter-spacing:.3px}
+.tab .beta{font-size:10px;background:#e65100;color:#fff;padding:2px 6px;border-radius:6px;margin-left:4px;font-weight:700}
 main{max-width:1100px;margin:auto;padding:0 20px 40px}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:20px;box-shadow:0 5px 24px #0000000b}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px}
@@ -58,20 +54,22 @@ svg{display:block;width:100%;height:auto}
 .toggle-row{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
 .toggle-row label{display:inline-flex;align-items:center;gap:8px;cursor:pointer;user-select:none;font-size:15px}
 .toggle-row input[type="checkbox"]{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
-.section-title{font-size:18px;font-weight:700;margin:20px 0 10px;color:var(--text)}
+.section-title{font-size:18px;font-weight:700;margin:20px 0 10px}
 .special-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:8px}
 .special{padding:0;min-height:120px;background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;text-align:left;cursor:pointer}
 .special:hover{transform:translateY(-2px);box-shadow:0 8px 20px #0001}
 .special .mini{height:78px;background:linear-gradient(145deg,#fff3e0,#fff);display:grid;place-items:center}
 .special b{display:block;font-size:15px;padding:8px 12px;line-height:1.25}
-
-/* Reden */
-.reden-wrap{display:flex;flex-direction:column;height:min(70vh,620px)}
-.chat-log{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:12px;background:var(--bg);border-radius:16px;border:1px solid var(--line);margin-bottom:14px}
-.msg{max-width:85%;padding:12px 14px;border-radius:18px;position:relative;cursor:context-menu;user-select:none}
+.reden-wrap{display:flex;flex-direction:column;height:min(72vh,640px);position:relative}
+.chat-log{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:12px;background:var(--bg);border-radius:16px;border:1px solid var(--line);margin-bottom:14px;transition:filter .2s,opacity .2s}
+.chat-log.dimmed{filter:brightness(.45);pointer-events:none;user-select:none}
+.msg{max-width:85%;padding:12px 14px;border-radius:18px;position:relative;user-select:none}
 .msg.sender{align-self:flex-end;background:var(--sender);border:1px solid #c5d8f5}
 .msg.receiver{align-self:flex-start;background:var(--receiver);border:1px solid #d4b8f0}
-.msg .who{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
+.msg .msg-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:4px}
+.msg .who{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.msg .dots{background:transparent;border:0;padding:2px 6px;border-radius:8px;cursor:pointer;color:var(--muted);font-size:18px;line-height:1}
+.msg .dots:hover{background:#0001;color:var(--text)}
 .msg .text{font-size:16px;word-break:break-word}
 .msg .play-area{margin-top:10px;text-align:center}
 .msg .play-svg{max-width:180px;margin:0 auto}
@@ -83,9 +81,16 @@ svg{display:block;width:100%;height:auto}
 .role-select{display:flex;gap:8px;flex-wrap:wrap}
 .role-select button{padding:8px 14px;border-radius:12px;background:var(--bg);border:1px solid var(--line);font:inherit;cursor:pointer}
 .role-select button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.input-row{display:flex;gap:10px;flex-wrap:wrap}
+.input-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .input-row input{flex:1;min-width:160px;padding:13px 15px;border:1px solid var(--line);border-radius:14px;font:inherit}
-.ctx-menu{position:fixed;z-index:1000;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px #0002;padding:6px;min-width:140px;display:none}
+.edit-bar{display:none;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--accent2);border-radius:12px;margin-bottom:4px}
+.edit-bar.visible{display:flex}
+.edit-bar strong{font-size:14px}
+.edit-bar .close-edit{background:transparent;border:0;font-size:20px;cursor:pointer;padding:2px 8px;border-radius:8px}
+.edit-bar .close-edit:hover{background:#0001}
+.hide-row{display:flex;align-items:center;gap:8px;font-size:14px}
+.hide-row input{width:16px;height:16px;accent-color:var(--accent)}
+.ctx-menu{position:fixed;z-index:1000;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px #0002;padding:6px;min-width:160px;display:none}
 .ctx-menu button{display:block;width:100%;text-align:left;padding:10px 14px;border:0;background:none;font:inherit;cursor:pointer;border-radius:8px}
 .ctx-menu button:hover{background:var(--accent2)}
 .hint{font-size:13px;color:var(--muted);margin-top:6px}
@@ -93,6 +98,24 @@ svg{display:block;width:100%;height:auto}
 .aufgaben h3{margin:0 0 10px;font-size:17px}
 .aufgaben ol{margin:0;padding-left:20px;color:var(--muted);line-height:1.55}
 .aufgaben li{margin-bottom:6px}
+/* Slideshow */
+.ss-overlay{position:fixed;inset:0;z-index:2000;background:#0d1117ee;display:none;flex-direction:column;align-items:center;justify-content:center;color:#fff;padding:20px}
+.ss-overlay.active{display:flex}
+.ss-svg{max-width:min(420px,90vw);width:100%}
+.ss-letter{font-size:48px;font-weight:800;margin-top:12px}
+.ss-progress{font-size:16px;opacity:.75;margin-top:6px}
+.ss-exit{margin-top:28px;padding:12px 28px;border-radius:14px;border:0;background:#fff;color:#18202a;font:inherit;font-weight:600;cursor:pointer}
+.ss-hint{position:absolute;bottom:24px;font-size:13px;opacity:.55}
+/* Tutorial */
+.tour-backdrop{position:fixed;inset:0;z-index:3000;background:#0006;display:none;align-items:center;justify-content:center;padding:20px}
+.tour-backdrop.active{display:flex}
+.tour-card{background:var(--card);border-radius:20px;padding:24px 26px;max-width:400px;width:100%;box-shadow:0 16px 48px #0003;text-align:center}
+.tour-card h3{margin:0 0 10px;font-size:20px}
+.tour-card p{color:var(--muted);line-height:1.5;margin:0 0 18px}
+.tour-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.tour-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--line);margin:0 3px}
+.tour-dot.on{background:var(--accent)}
+.tour-start-btn{margin-top:8px}
 </style>
 </head>
 <body>
@@ -100,7 +123,6 @@ svg{display:block;width:100%;height:auto}
   <h1>👋 Winkeralphabet</h1>
   <div class="sub">Das internationale Semaphore-Alphabet — modern, offline und ohne den alten .htm-Dinosaurier.</div>
 </header>
-
 <nav>
   <button class="tab active" data-tab="alphabet"><span class="material-symbols-outlined">menu_book</span> Alphabet</button>
   <button class="tab" data-tab="trainer"><span class="material-symbols-outlined">quiz</span> Trainer</button>
@@ -108,26 +130,17 @@ svg{display:block;width:100%;height:auto}
   <button class="tab" data-tab="reden"><span class="material-symbols-outlined">forum</span> Reden <span class="beta">BETA</span></button>
   <button class="tab" data-tab="info"><span class="material-symbols-outlined">info</span> Info</button>
 </nav>
-
 <main>
 <section id="alphabet" class="panel">
   <div class="toggle-row">
-    <label>
-      <input type="checkbox" id="showKeywords">
-      Schlüsselwörter anzeigen
-    </label>
-    <label>
-      <input type="checkbox" id="showNumbers">
-      Ziffern anzeigen
-    </label>
+    <label><input type="checkbox" id="showKeywords"> Schlüsselwörter anzeigen</label>
+    <label><input type="checkbox" id="showNumbers"> Ziffern anzeigen</label>
   </div>
   <input id="search" class="search" placeholder="Buchstaben, Schlüsselwörter oder Ziffern suchen …">
   <div id="grid" class="grid"></div>
-
   <div class="section-title">Sondersignale</div>
   <div id="specialGrid" class="special-grid"></div>
 </section>
-
 <section id="detail" class="panel hidden">
   <div class="detail">
     <div id="detailSvg"></div>
@@ -144,7 +157,6 @@ svg{display:block;width:100%;height:auto}
     </div>
   </div>
 </section>
-
 <section id="trainer" class="panel training hidden">
   <h2>🎯 Welcher Buchstabe ist das?</h2>
   <p>Schau auf die Flaggenstellung und wähle die richtige Antwort.</p>
@@ -153,7 +165,6 @@ svg{display:block;width:100%;height:auto}
   <div id="answers" class="answers"></div>
   <button class="primary" id="next">Nächste Runde</button>
 </section>
-
 <section id="words" class="panel hidden">
   <h2>📝 Wörter winken</h2>
   <p class="sub">Gib ein Wort ein und gehe Buchstabe für Buchstabe durch die Winkeralphabet-Darstellung.</p>
@@ -172,13 +183,16 @@ svg{display:block;width:100%;height:auto}
     </div>
   </div>
 </section>
-
 <section id="reden" class="panel hidden">
   <h2>💬 Reden <span class="beta" style="font-size:12px;vertical-align:middle">BETA</span></h2>
   <p class="sub">Simuliere ein Gespräch: Sender (rechts) und Empfänger (links). Nach dem Senden werden die Buchstaben nacheinander gewunken.</p>
   <div class="reden-wrap">
     <div class="chat-log" id="chatLog">
       <div class="msg-empty" id="chatEmpty">Noch keine Nachrichten. Schreibe etwas und sende es!</div>
+    </div>
+    <div class="edit-bar" id="editBar">
+      <strong>✏️ Text bearbeiten</strong>
+      <button type="button" class="close-edit" id="cancelEdit" title="Abbrechen">✕</button>
     </div>
     <div class="reden-controls">
       <div class="role-select">
@@ -189,21 +203,21 @@ svg{display:block;width:100%;height:auto}
         <input id="redenInput" maxlength="40" placeholder="Nachricht eingeben …" autocomplete="off">
         <button class="primary" id="redenSend">Senden</button>
       </div>
-      <div class="hint">Tipp: Rechtsklick auf eine Nachricht zum Löschen. Buchstaben A–Z und Ziffern 0–9 werden gewunken.</div>
+      <label class="hide-row">
+        <input type="checkbox" id="hideLetters">
+        Buchstabe/Ziffer ausblenden (Rätselmodus)
+      </label>
+      <div class="hint">Tipp: ⋮ oder Rechtsklick auf eine Nachricht → Bearbeiten / Diashow / Löschen.</div>
     </div>
   </div>
 </section>
-
 <section id="info" class="panel hidden">
   <h2>Was ist das Winkeralphabet?</h2>
   <p>Das Winkeralphabet dient zur optischen Nachrichtenübermittlung zwischen Schiffen oder an Land. Es können Buchstaben und Ziffern übermittelt werden. Buchstaben und Ziffern werden durch die Stellung beschrieben, in der der Winker zwei Flaggen hält.</p>
   <p>Die möglichen Richtungen liegen in 45°-Schritten. Diese Version ist eine eigenständige HTML-Alternative für den Unterricht — offline, mit SVG und ohne alte Bilddateien.</p>
   <p><strong>Ziffern:</strong> A=1, B=2, C=3, D=4, E=5, F=6, G=7, H=8, I=9, K=0. Vor Ziffern wird das Signal «Ziffern» gesendet.</p>
   <p><strong>Sondersignale:</strong> Pause/Leer (Leerzeichen), Fehler (Irrtum), Ziffern (Umschaltung auf Zahlen).</p>
-  <div class="legend">
-    <span>🟥 Flaggen</span><span>⚪ Winker</span><span>↗ 45°-Schritte</span>
-  </div>
-
+  <div class="legend"><span>🟥 Flaggen</span><span>⚪ Winker</span><span>↗ 45°-Schritte</span></div>
   <div class="aufgaben">
     <h3>📋 Aufgaben (Unterricht)</h3>
     <ol>
@@ -217,218 +231,112 @@ svg{display:block;width:100%;height:auto}
 </main>
 
 <div class="ctx-menu" id="ctxMenu">
+  <button type="button" id="ctxEdit">✏️ Bearbeiten</button>
+  <button type="button" id="ctxSlideshow">▶️ Diashow</button>
   <button type="button" id="ctxDelete">🗑️ Nachricht löschen</button>
 </div>
 
-<script>
-const map={
-  A:[0,45],B:[0,90],C:[0,135],D:[0,180],E:[0,225],F:[0,270],G:[0,315],
-  H:[45,90],I:[45,135],K:[45,180],L:[45,225],M:[45,270],N:[45,315],
-  O:[90,135],P:[90,180],Q:[90,225],R:[90,270],S:[90,315],
-  T:[135,180],U:[135,225],Y:[135,270],
-  V:[180,315],W:[225,270],X:[225,315],Z:[270,315],
-  J:[180,270]
-};
-// Special signals (approximate classic positions)
-const specials={
-  "ZIFFERN":{angles:[0,0], label:"Ziffern", desc:"Umschaltung auf Ziffernmodus. Danach werden A–I und K als Zahlen 1–9 und 0 gelesen."},
-  "PAUSE":  {angles:[225,315], label:"Pause / Leer", desc:"Pause oder Leerzeichen zwischen Wörtern bzw. Gruppen."},
-  "FEHLER": {angles:[45,315], label:"Fehler", desc:"Fehlersignal (Irrtum). Zeigt an, dass das Vorhergehende ungültig war."}
-};
-const names={
-  A:"Alfa",B:"Bravo",C:"Charlie",D:"Delta",E:"Echo",F:"Foxtrott",
-  G:"Golf",H:"Hotel",I:"India",J:"Juliett",K:"Kilo",L:"Lima",
-  M:"Mike",N:"November",O:"Oscar",P:"Papa",Q:"Quebec",R:"Romeo",
-  S:"Sierra",T:"Tango",U:"Uniform",V:"Victor",W:"Whisky",X:"X-Ray",
-  Y:"Yankee",Z:"Zulu"
-};
-// Digit mapping from the textbook
-const digits={A:"1",B:"2",C:"3",D:"4",E:"5",F:"6",G:"7",H:"8",I:"9",K:"0"};
-const digitToLetter={ "1":"A","2":"B","3":"C","4":"D","5":"E","6":"F","7":"G","8":"H","9":"I","0":"K" };
+<div class="ss-overlay" id="ssOverlay">
+  <div class="ss-svg" id="ssSvg"></div>
+  <div class="ss-letter" id="ssLetter"></div>
+  <div class="ss-progress" id="ssProgress"></div>
+  <button class="ss-exit" id="ssExit">Beenden</button>
+  <div class="ss-hint">Beliebige Taste oder «Beenden» zum Schließen</div>
+</div>
 
+<div class="tour-backdrop" id="tourBackdrop">
+  <div class="tour-card">
+    <h3 id="tourTitle">Willkommen bei Reden</h3>
+    <p id="tourText">Hier kannst du Nachrichten mit dem Winkeralphabet senden und empfangen.</p>
+    <div id="tourDots"></div>
+    <div class="tour-actions" style="margin-top:16px">
+      <button class="secondary" id="tourSkip">Überspringen</button>
+      <button class="primary" id="tourNext">Weiter</button>
+    </div>
+    <button class="primary tour-start-btn hidden" id="tourStart">Start</button>
+  </div>
+</div>
+
+<script>
+const map={A:[0,45],B:[0,90],C:[0,135],D:[0,180],E:[0,225],F:[0,270],G:[0,315],H:[45,90],I:[45,135],K:[45,180],L:[45,225],M:[45,270],N:[45,315],O:[90,135],P:[90,180],Q:[90,225],R:[90,270],S:[90,315],T:[135,180],U:[135,225],Y:[135,270],V:[180,315],W:[225,270],X:[225,315],Z:[270,315],J:[180,270]};
+const specials={ZIFFERN:{angles:[0,0],label:"Ziffern",desc:"Umschaltung auf Ziffernmodus. Danach werden A–I und K als Zahlen 1–9 und 0 gelesen."},PAUSE:{angles:[225,315],label:"Pause / Leer",desc:"Pause oder Leerzeichen zwischen Wörtern bzw. Gruppen."},FEHLER:{angles:[45,315],label:"Fehler",desc:"Fehlersignal (Irrtum). Zeigt an, dass das Vorhergehende ungültig war."}};
+const names={A:"Alfa",B:"Bravo",C:"Charlie",D:"Delta",E:"Echo",F:"Foxtrott",G:"Golf",H:"Hotel",I:"India",J:"Juliett",K:"Kilo",L:"Lima",M:"Mike",N:"November",O:"Oscar",P:"Papa",Q:"Quebec",R:"Romeo",S:"Sierra",T:"Tango",U:"Uniform",V:"Victor",W:"Whisky",X:"X-Ray",Y:"Yankee",Z:"Zulu"};
+const digits={A:"1",B:"2",C:"3",D:"4",E:"5",F:"6",G:"7",H:"8",I:"9",K:"0"};
+const digitToLetter={"1":"A","2":"B","3":"C","4":"D","5":"E","6":"F","7":"G","8":"H","9":"I","0":"K"};
 const letters=Object.keys(map).sort();
 const $=s=>document.querySelector(s);
 
-function armEnd(angle, len=105){
-  const r=(angle-90)*Math.PI/180;
-  return {x:150+Math.cos(r)*len,y:155+Math.sin(r)*len};
-}
-function semaphore(letterOrKey, showLabel=true){
-  let angles, label;
-  if(specials[letterOrKey]){
-    angles=specials[letterOrKey].angles;
-    label=specials[letterOrKey].label;
-  } else {
-    angles=map[letterOrKey];
-    label=letterOrKey;
-  }
-  if(!angles) return "";
-  const [l,r]=angles;
-  const a=armEnd(l),b=armEnd(r);
-  return `<svg viewBox="0 0 300 330" aria-label="Winkeralphabet ${label}">
-    <defs><linearGradient id="shirt" x1="0" x2="1"><stop offset="0" stop-color="#666"/><stop offset="1" stop-color="#999"/></linearGradient></defs>
-    <circle cx="150" cy="82" r="27" fill="#f0c7a8"/>
-    <path d="M128 75 Q150 45 172 75" fill="none" stroke="#333" stroke-width="12" stroke-linecap="round"/>
-    <rect x="121" y="110" width="58" height="105" rx="22" fill="url(#shirt)"/>
-    <line x1="150" y1="125" x2="${a.x}" y2="${a.y}" stroke="#f0c7a8" stroke-width="18" stroke-linecap="round"/>
-    <line x1="150" y1="125" x2="${b.x}" y2="${b.y}" stroke="#f0c7a8" stroke-width="18" stroke-linecap="round"/>
-    <line x1="${a.x}" y1="${a.y}" x2="${a.x+(a.x-150)*.22}" y2="${a.y+(a.y-125)*.22}" stroke="#a41515" stroke-width="14" stroke-linecap="round"/>
-    <line x1="${b.x}" y1="${b.y}" x2="${b.x+(b.x-150)*.22}" y2="${b.y+(b.y-125)*.22}" stroke="#a41515" stroke-width="14" stroke-linecap="round"/>
-    ${showLabel ? `<text x="150" y="295" text-anchor="middle" font-size="22" font-weight="800" fill="currentColor">${label}</text>` : ""}
-  </svg>`;
+function armEnd(angle,len=105){const r=(angle-90)*Math.PI/180;return{x:150+Math.cos(r)*len,y:155+Math.sin(r)*len};}
+function semaphore(key,showLabel=true){
+  let angles,label;
+  if(specials[key]){angles=specials[key].angles;label=specials[key].label;}
+  else{angles=map[key];label=key;}
+  if(!angles)return"";
+  const[l,r]=angles;const a=armEnd(l),b=armEnd(r);
+  return `<svg viewBox="0 0 300 330" aria-label="Winkeralphabet ${label}"><defs><linearGradient id="shirt" x1="0" x2="1"><stop offset="0" stop-color="#666"/><stop offset="1" stop-color="#999"/></linearGradient></defs><circle cx="150" cy="82" r="27" fill="#f0c7a8"/><path d="M128 75 Q150 45 172 75" fill="none" stroke="#333" stroke-width="12" stroke-linecap="round"/><rect x="121" y="110" width="58" height="105" rx="22" fill="url(#shirt)"/><line x1="150" y1="125" x2="${a.x}" y2="${a.y}" stroke="#f0c7a8" stroke-width="18" stroke-linecap="round"/><line x1="150" y1="125" x2="${b.x}" y2="${b.y}" stroke="#f0c7a8" stroke-width="18" stroke-linecap="round"/><line x1="${a.x}" y1="${a.y}" x2="${a.x+(a.x-150)*.22}" y2="${a.y+(a.y-125)*.22}" stroke="#a41515" stroke-width="14" stroke-linecap="round"/><line x1="${b.x}" y1="${b.y}" x2="${b.x+(b.x-150)*.22}" y2="${b.y+(b.y-125)*.22}" stroke="#a41515" stroke-width="14" stroke-linecap="round"/>${showLabel?`<text x="150" y="295" text-anchor="middle" font-size="22" font-weight="800" fill="currentColor">${label}</text>`:""}</svg>`;
 }
 
-/* ========== Alphabet ========== */
-function showKeywords(){ return $("#showKeywords")?.checked || false; }
-function showNumbers(){ return $("#showNumbers")?.checked || false; }
-
+function showKeywords(){return $("#showKeywords")?.checked||false;}
+function showNumbers(){return $("#showNumbers")?.checked||false;}
 function renderGrid(filter=""){
-  const q=filter.trim().toUpperCase();
-  const showKw=showKeywords();
-  const showNum=showNumbers();
-  $("#grid").innerHTML=letters.filter(x=>{
-    if(!q) return true;
-    return x.includes(q) || (names[x]||"").toUpperCase().includes(q) || (digits[x]||"")===q;
-  }).map(l=>{
-    const kw=showKw ? `<span class="kw">${names[l]||""}</span>` : "";
-    const num=showNum && digits[l] ? `<span class="num">= ${digits[l]}</span>` : "";
+  const q=filter.trim().toUpperCase();const showKw=showKeywords(),showNum=showNumbers();
+  $("#grid").innerHTML=letters.filter(x=>{if(!q)return true;return x.includes(q)||(names[x]||"").toUpperCase().includes(q)||(digits[x]||"")===q;}).map(l=>{
+    const kw=showKw?`<span class="kw">${names[l]||""}</span>`:"";const num=showNum&&digits[l]?`<span class="num">= ${digits[l]}</span>`:"";
     return `<button class="letter" data-letter="${l}"><div class="mini">${semaphore(l)}</div><b>${l}</b>${kw}${num}</button>`;
   }).join("");
   document.querySelectorAll(".letter").forEach(b=>b.onclick=()=>showDetail(b.dataset.letter));
-
-  // Specials
-  $("#specialGrid").innerHTML=Object.keys(specials).map(key=>{
-    const s=specials[key];
-    return `<button class="special" data-key="${key}"><div class="mini">${semaphore(key)}</div><b>${s.label}</b></button>`;
-  }).join("");
-  document.querySelectorAll(".special").forEach(b=>b.onclick=()=>showDetail(b.dataset.key, true));
+  $("#specialGrid").innerHTML=Object.keys(specials).map(key=>{const s=specials[key];return `<button class="special" data-key="${key}"><div class="mini">${semaphore(key)}</div><b>${s.label}</b></button>`;}).join("");
+  document.querySelectorAll(".special").forEach(b=>b.onclick=()=>showDetail(b.dataset.key,true));
 }
-
-function showDetail(key, isSpecial=false){
-  $("#alphabet").classList.add("hidden");
-  $("#detail").classList.remove("hidden");
-  if(isSpecial || specials[key]){
-    const s=specials[key];
-    $("#detailLetter").textContent="✦";
-    $("#detailName").textContent=s.label;
-    $("#detailPhonetic").textContent="";
-    $("#detailNum").textContent="";
-    $("#detailDesc").textContent=s.desc;
-    $("#detailSvg").innerHTML=semaphore(key);
-  } else {
-    $("#detailLetter").textContent=key;
-    $("#detailName").textContent=key;
-    $("#detailPhonetic").textContent=names[key]||"";
-    $("#detailNum").textContent=digits[key] ? `Ziffer: ${digits[key]}` : "";
-    $("#detailDesc").textContent="Die beiden Flaggen werden in festen 45°-Richtungen gehalten. Die Darstellung zeigt die Stellung aus Sicht der beobachtenden Person.";
-    $("#detailSvg").innerHTML=semaphore(key);
-  }
+function showDetail(key,isSpecial=false){
+  $("#alphabet").classList.add("hidden");$("#detail").classList.remove("hidden");
+  if(isSpecial||specials[key]){const s=specials[key];$("#detailLetter").textContent="✦";$("#detailName").textContent=s.label;$("#detailPhonetic").textContent="";$("#detailNum").textContent="";$("#detailDesc").textContent=s.desc;$("#detailSvg").innerHTML=semaphore(key);}
+  else{$("#detailLetter").textContent=key;$("#detailName").textContent=key;$("#detailPhonetic").textContent=names[key]||"";$("#detailNum").textContent=digits[key]?`Ziffer: ${digits[key]}`:"";$("#detailDesc").textContent="Die beiden Flaggen werden in festen 45°-Richtungen gehalten. Die Darstellung zeigt die Stellung aus Sicht der beobachtenden Person.";$("#detailSvg").innerHTML=semaphore(key);}
 }
-
 $("#back").onclick=()=>{$("#detail").classList.add("hidden");$("#alphabet").classList.remove("hidden")};
 $("#random").onclick=()=>showDetail(letters[Math.floor(Math.random()*letters.length)]);
 $("#search").oninput=e=>renderGrid(e.target.value);
 $("#showKeywords").onchange=()=>renderGrid($("#search").value);
 $("#showNumbers").onchange=()=>renderGrid($("#search").value);
 
-/* ========== Wörter ========== */
-let word=[], wi=0;
-function startWord(){
-  const raw=$("#word").value.toUpperCase();
-  word=[];
-  for(const c of raw){
-    if(map[c]) word.push(c);
-    else if(digitToLetter[c]) word.push(digitToLetter[c]);
-  }
-  if(!word.length)return;
-  wi=0;
-  $("#wordArea").classList.remove("hidden");
-  renderWord();
-}
-function renderWord(){
-  const l=word[wi];
-  $("#wordVisual").innerHTML=semaphore(l);
-  $("#wordLetter").textContent=l + (digits[l] ? ` (=${digits[l]})` : "");
-  $("#wordPhonetic").textContent=names[l]||"";
-  $("#wordProgress").textContent=`${wi+1} / ${word.length}`;
-}
+let word=[],wi=0;
+function startWord(){const raw=$("#word").value.toUpperCase();word=[];for(const c of raw){if(map[c])word.push(c);else if(digitToLetter[c])word.push(digitToLetter[c]);}if(!word.length)return;wi=0;$("#wordArea").classList.remove("hidden");renderWord();}
+function renderWord(){const l=word[wi];$("#wordVisual").innerHTML=semaphore(l);$("#wordLetter").textContent=l+(digits[l]?` (=${digits[l]})`:"");$("#wordPhonetic").textContent=names[l]||"";$("#wordProgress").textContent=`${wi+1} / ${word.length}`;}
 $("#showWord")?.addEventListener("click",startWord);
 $("#prevWord")?.addEventListener("click",()=>{if(word.length){wi=(wi-1+word.length)%word.length;renderWord()}});
 $("#nextWord")?.addEventListener("click",()=>{if(word.length){wi=(wi+1)%word.length;renderWord()}});
 
-/* ========== Trainer ========== */
 let current=null;
-function newQuestion(){
-  $("#answers").innerHTML="";
-  current=letters[Math.floor(Math.random()*letters.length)];
-  $("#quizSvg").innerHTML=semaphore(current, false);
-  $("#status").textContent="";
-  const wrong=letters.filter(x=>x!==current).sort(()=>Math.random()-.5).slice(0,3);
-  [current,...wrong].sort(()=>Math.random()-.5).forEach(l=>{
-    const b=document.createElement("button");
-    b.className="answer";
-    b.textContent=l + (digits[l] ? ` (${digits[l]})` : "");
-    b.onclick=()=>check(b,l);
-    $("#answers").appendChild(b);
-  });
-}
-function check(btn,l){
-  document.querySelectorAll(".answer").forEach(b=>b.disabled=true);
-  if(l===current){
-    btn.classList.add("correct");
-    $("#status").textContent="✅ Richtig! ("+(names[current]||current)+(digits[current]?" = "+digits[current]:"")+")";
-  } else {
-    btn.classList.add("wrong");
-    $("#status").textContent=`❌ Fast — gesucht war ${current} (${names[current]||""}${digits[current]?" = "+digits[current]:""}).`;
-  }
-}
+function newQuestion(){$("#answers").innerHTML="";current=letters[Math.floor(Math.random()*letters.length)];$("#quizSvg").innerHTML=semaphore(current,false);$("#status").textContent="";const wrong=letters.filter(x=>x!==current).sort(()=>Math.random()-.5).slice(0,3);[current,...wrong].sort(()=>Math.random()-.5).forEach(l=>{const b=document.createElement("button");b.className="answer";b.textContent=l+(digits[l]?` (${digits[l]})`:"");b.onclick=()=>check(b,l);$("#answers").appendChild(b);});}
+function check(btn,l){document.querySelectorAll(".answer").forEach(b=>b.disabled=true);if(l===current){btn.classList.add("correct");$("#status").textContent="✅ Richtig! ("+(names[current]||current)+(digits[current]?" = "+digits[current]:"")+")";}else{btn.classList.add("wrong");$("#status").textContent=`❌ Fast — gesucht war ${current} (${names[current]||""}${digits[current]?" = "+digits[current]:""}).`;}}
 $("#next").onclick=()=>newQuestion();
 
-/* ========== Reden (BETA) ========== */
-let redenRole="sender";
-let messages=[];
-let selectedMsgId=null;
-let playTimers={};
+/* ========== REDEN ========== */
+let redenRole="sender",messages=[],selectedMsgId=null,playTimers={},editingId=null;
 const FRAME_MS=900;
 
-function setRole(role){
-  redenRole=role;
-  $("#roleSender").classList.toggle("active", role==="sender");
-  $("#roleReceiver").classList.toggle("active", role==="receiver");
-}
+function setRole(role){redenRole=role;$("#roleSender").classList.toggle("active",role==="sender");$("#roleReceiver").classList.toggle("active",role==="receiver");}
 $("#roleSender").onclick=()=>setRole("sender");
 $("#roleReceiver").onclick=()=>setRole("receiver");
 
-function updateChatEmpty(){
-  const empty=$("#chatEmpty");
-  if(empty) empty.style.display=messages.length? "none":"block";
-}
+function updateChatEmpty(){const e=$("#chatEmpty");if(e)e.style.display=messages.length?"none":"block";}
+function stopPlay(id){if(playTimers[id]){clearInterval(playTimers[id]);delete playTimers[id];}}
 
-function stopPlay(id){
-  if(playTimers[id]){ clearInterval(playTimers[id]); delete playTimers[id]; }
-}
-
-function playMessage(msgEl, letters){
-  const id=msgEl.dataset.id;
-  stopPlay(id);
-  if(!letters.length){
-    msgEl.querySelector(".play-area").innerHTML=`<div class="play-progress">Keine gültigen Zeichen</div>`;
-    return;
-  }
-  let i=0;
-  const area=msgEl.querySelector(".play-area");
+function playMessage(msgEl,letters,hide){
+  const id=msgEl.dataset.id;stopPlay(id);
+  if(!letters.length){msgEl.querySelector(".play-area").innerHTML=`<div class="play-progress">Keine gültigen Zeichen</div>`;return;}
+  let i=0;const area=msgEl.querySelector(".play-area");
   function showFrame(){
     const l=letters[i];
-    const extra=digits[l] ? ` <span style="font-size:14px;color:var(--muted)">=${digits[l]}</span>` : "";
-    area.innerHTML=`
-      <div class="play-svg">${semaphore(l)}</div>
-      <div class="play-letter">${l}${extra} <span style="font-size:14px;color:var(--muted)">${names[l]||""}</span></div>
-      <div class="play-progress">${i+1} / ${letters.length}</div>
-    `;
+    if(hide){
+      area.innerHTML=`<div class="play-svg">${semaphore(l,false)}</div><div class="play-letter">?</div><div class="play-progress">${i+1} / ${letters.length}</div>`;
+    } else {
+      const extra=digits[l]?` <span style="font-size:14px;color:var(--muted)">=${digits[l]}</span>`:"";
+      area.innerHTML=`<div class="play-svg">${semaphore(l)}</div><div class="play-letter">${l}${extra} <span style="font-size:14px;color:var(--muted)">${names[l]||""}</span></div><div class="play-progress">${i+1} / ${letters.length}</div>`;
+    }
     i=(i+1)%letters.length;
   }
-  showFrame();
-  playTimers[id]=setInterval(showFrame, FRAME_MS);
+  showFrame();playTimers[id]=setInterval(showFrame,FRAME_MS);
 }
 
 function renderMessages(){
@@ -436,86 +344,137 @@ function renderMessages(){
   log.querySelectorAll(".msg").forEach(m=>m.remove());
   messages.forEach(m=>{
     const div=document.createElement("div");
-    div.className=`msg ${m.role}`;
-    div.dataset.id=m.id;
+    div.className=`msg ${m.role}`;div.dataset.id=m.id;
     div.innerHTML=`
-      <div class="who">${m.role==="sender"?"Sender":"Empfänger"}</div>
+      <div class="msg-top">
+        <span class="who">${m.role==="sender"?"Sender":"Empfänger"}${m.hide?' · 🔒':''}</span>
+        <button type="button" class="dots" title="Menü" aria-label="Menü">⋮</button>
+      </div>
       <div class="text">${escapeHtml(m.text)}</div>
-      <div class="play-area"></div>
-    `;
-    div.addEventListener("contextmenu",e=>{
-      e.preventDefault();
-      selectMsg(m.id, div);
-      showCtx(e.clientX, e.clientY);
-    });
-    div.addEventListener("click",()=>{ selectMsg(m.id, div); hideCtx(); });
+      <div class="play-area"></div>`;
+    const dots=div.querySelector(".dots");
+    dots.onclick=e=>{e.stopPropagation();selectMsg(m.id,div);showCtx(e.clientX,e.clientY);};
+    div.addEventListener("contextmenu",e=>{e.preventDefault();selectMsg(m.id,div);showCtx(e.clientX,e.clientY);});
+    div.addEventListener("click",()=>{selectMsg(m.id,div);hideCtx();});
     log.appendChild(div);
-    playMessage(div, m.letters);
+    playMessage(div,m.letters,m.hide);
   });
-  updateChatEmpty();
-  log.scrollTop=log.scrollHeight;
+  updateChatEmpty();log.scrollTop=log.scrollHeight;
 }
-
-function escapeHtml(s){
-  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-}
-function selectMsg(id, el){
-  selectedMsgId=id;
-  document.querySelectorAll(".msg").forEach(m=>m.classList.remove("selected"));
-  if(el) el.classList.add("selected");
-}
-function deleteSelected(){
-  if(selectedMsgId==null) return;
-  stopPlay(selectedMsgId);
-  messages=messages.filter(m=>m.id!==selectedMsgId);
-  selectedMsgId=null;
-  hideCtx();
-  renderMessages();
-}
-function showCtx(x,y){
-  const menu=$("#ctxMenu");
-  menu.style.display="block";
-  menu.style.left=Math.min(x, window.innerWidth-160)+"px";
-  menu.style.top=Math.min(y, window.innerHeight-60)+"px";
-}
-function hideCtx(){ $("#ctxMenu").style.display="none"; }
+function escapeHtml(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function selectMsg(id,el){selectedMsgId=id;document.querySelectorAll(".msg").forEach(m=>m.classList.remove("selected"));if(el)el.classList.add("selected");}
+function deleteSelected(){if(selectedMsgId==null)return;stopPlay(selectedMsgId);messages=messages.filter(m=>m.id!==selectedMsgId);selectedMsgId=null;hideCtx();if(editingId)cancelEdit();renderMessages();}
+function showCtx(x,y){const menu=$("#ctxMenu");menu.style.display="block";menu.style.left=Math.min(x,window.innerWidth-180)+"px";menu.style.top=Math.min(y,window.innerHeight-140)+"px";}
+function hideCtx(){$("#ctxMenu").style.display="none";}
 
 $("#ctxDelete").onclick=()=>deleteSelected();
-document.addEventListener("click",e=>{
-  if(!e.target.closest("#ctxMenu") && !e.target.closest(".msg")) hideCtx();
-});
+$("#ctxEdit").onclick=()=>{hideCtx();startEdit();};
+$("#ctxSlideshow").onclick=()=>{hideCtx();startSlideshow();};
+
+function startEdit(){
+  if(selectedMsgId==null)return;
+  const m=messages.find(x=>x.id===selectedMsgId);if(!m)return;
+  editingId=m.id;
+  $("#redenInput").value=m.text;
+  $("#editBar").classList.add("visible");
+  $("#chatLog").classList.add("dimmed");
+  $("#redenSend").textContent="Speichern";
+  $("#hideLetters").checked=!!m.hide;
+  $("#redenInput").focus();
+}
+function cancelEdit(){
+  editingId=null;
+  $("#editBar").classList.remove("visible");
+  $("#chatLog").classList.remove("dimmed");
+  $("#redenSend").textContent="Senden";
+  $("#redenInput").value="";
+}
+$("#cancelEdit").onclick=cancelEdit;
+
+function startSlideshow(){
+  if(selectedMsgId==null)return;
+  const m=messages.find(x=>x.id===selectedMsgId);if(!m||!m.letters.length)return;
+  const ov=$("#ssOverlay");ov.classList.add("active");
+  let i=0;
+  function frame(){
+    const l=m.letters[i];
+    $("#ssSvg").innerHTML=semaphore(l,false);
+    if(m.hide){$("#ssLetter").textContent="?";}
+    else{$("#ssLetter").textContent=l+(digits[l]?` = ${digits[l]}`:"")+"  "+(names[l]||"");}
+    $("#ssProgress").textContent=`${i+1} / ${m.letters.length}`;
+    i=(i+1)%m.letters.length;
+  }
+  frame();
+  if(ov._timer)clearInterval(ov._timer);
+  ov._timer=setInterval(frame,1000);
+}
+function stopSlideshow(){
+  const ov=$("#ssOverlay");ov.classList.remove("active");
+  if(ov._timer){clearInterval(ov._timer);ov._timer=null;}
+}
+$("#ssExit").onclick=stopSlideshow;
 document.addEventListener("keydown",e=>{
-  if(e.key==="Escape") hideCtx();
-  if(e.key==="Delete" && selectedMsgId!=null) deleteSelected();
+  if($("#ssOverlay").classList.contains("active")){e.preventDefault();stopSlideshow();return;}
+  if(e.key==="Escape"){hideCtx();if(editingId)cancelEdit();}
+  if(e.key==="Delete"&&selectedMsgId!=null&&!editingId)deleteSelected();
 });
 
+document.addEventListener("click",e=>{if(!e.target.closest("#ctxMenu")&&!e.target.closest(".dots")&&!e.target.closest(".msg"))hideCtx();});
+
 function sendMessage(){
-  const input=$("#redenInput");
-  const text=input.value.trim();
-  if(!text) return;
-  const letters=[];
-  for(const c of text.toUpperCase()){
-    if(map[c]) letters.push(c);
-    else if(digitToLetter[c]) letters.push(digitToLetter[c]);
+  const input=$("#redenInput");const text=input.value.trim();if(!text)return;
+  const letters=[];for(const c of text.toUpperCase()){if(map[c])letters.push(c);else if(digitToLetter[c])letters.push(digitToLetter[c]);}
+  const hide=$("#hideLetters").checked;
+  if(editingId){
+    const m=messages.find(x=>x.id===editingId);
+    if(m){m.text=text;m.letters=letters;m.hide=hide;}
+    cancelEdit();
+  } else {
+    messages.push({id:Date.now()+"_"+Math.random().toString(36).slice(2,7),role:redenRole,text,letters,hide});
+    input.value="";
   }
-  const id=Date.now()+"_"+Math.random().toString(36).slice(2,7);
-  messages.push({id, role:redenRole, text, letters});
-  input.value="";
   renderMessages();
 }
 $("#redenSend").onclick=sendMessage;
-$("#redenInput").addEventListener("keydown",e=>{
-  if(e.key==="Enter"){ e.preventDefault(); sendMessage(); }
-});
+$("#redenInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();sendMessage();}});
 
-/* ========== Tabs ========== */
+/* ========== TOUR ========== */
+const tourSteps=[
+  {title:"Willkommen bei Reden 👋",text:"Hier simulierst du ein Gespräch mit dem Winkeralphabet: Sender rechts, Empfänger links."},
+  {title:"Rolle wählen",text:"Über dem Eingabefeld wählst du, ob du als Sender oder Empfänger schreibst."},
+  {title:"Rätselmodus 🔒",text:"Aktiviere «Buchstabe/Ziffer ausblenden» — dann sieht man nur die Flaggen, nicht die Lösung. Ideal zum Üben!"},
+  {title:"Menü der Nachricht",text:"Klicke auf die drei Punkte ⋮ oder nutze Rechtsklick: Bearbeiten, Diashow oder Löschen."},
+  {title:"Diashow ▶️",text:"Die Diashow zeigt die Flaggenstellung im Vollbild. Beliebige Taste oder «Beenden» schließt sie."},
+  {title:"Viel Glück! 😊",text:"Viel Glück! Starte mit dem Button «Start» oder wiederhole die Einführung.",final:true}
+];
+let tourIdx=0;
+function showTour(i){
+  tourIdx=i;const step=tourSteps[i];
+  $("#tourTitle").textContent=step.title;
+  $("#tourText").textContent=step.text;
+  $("#tourDots").innerHTML=tourSteps.map((_,j)=>`<span class="tour-dot${j===i?" on":""}"></span>`).join("");
+  const isFinal=!!step.final;
+  $("#tourNext").classList.toggle("hidden",isFinal);
+  $("#tourSkip").classList.toggle("hidden",isFinal);
+  $("#tourStart").classList.toggle("hidden",!isFinal);
+  $("#tourBackdrop").classList.add("active");
+}
+function closeTour(){$("#tourBackdrop").classList.remove("active");try{localStorage.setItem("winker_tour_done","1");}catch(e){}}
+$("#tourNext").onclick=()=>{if(tourIdx<tourSteps.length-1)showTour(tourIdx+1);};
+$("#tourSkip").onclick=closeTour;
+$("#tourStart").onclick=closeTour;
+
+/* ========== TABS ========== */
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{
-  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-  t.classList.add("active");
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));t.classList.add("active");
   ["alphabet","trainer","words","reden","info"].forEach(id=>$("#"+id).classList.add("hidden"));
   $("#"+t.dataset.tab).classList.remove("hidden");
-  if(t.dataset.tab==="trainer") newQuestion();
-  if(t.dataset.tab==="reden") updateChatEmpty();
+  if(t.dataset.tab==="trainer")newQuestion();
+  if(t.dataset.tab==="reden"){
+    updateChatEmpty();
+    let done=false;try{done=localStorage.getItem("winker_tour_done")==="1";}catch(e){}
+    if(!done)showTour(0);
+  }
 });
 
 renderGrid();
