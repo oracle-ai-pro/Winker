@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Winkeralphabet — Modern Trainer</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%236750a4'/%3E%3Ccircle cx='32' cy='18' r='7' fill='%23f0c7a8'/%3E%3Cpath d='M26 16.5 Q32 9 38 16.5' fill='none' stroke='%23333' stroke-width='3.5' stroke-linecap='round'/%3E%3Crect x='24' y='25' width='16' height='22' rx='6' fill='%23e0e0e0'/%3E%3Cline x1='32' y1='28' x2='12' y2='42' stroke='%23f0c7a8' stroke-width='5' stroke-linecap='round'/%3E%3Cline x1='32' y1='28' x2='52' y2='42' stroke='%23f0c7a8' stroke-width='5' stroke-linecap='round'/%3E%3Cline x1='12' y1='42' x2='7' y2='47' stroke='%23c62828' stroke-width='4.5' stroke-linecap='round'/%3E%3Cline x1='52' y1='42' x2='57' y2='47' stroke='%23c62828' stroke-width='4.5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" rel="stylesheet">
+<style>
+.material-symbols-outlined{font-size:22px;vertical-align:middle} .tab{display:inline-flex;align-items:center;gap:7px}
+:root{
+  --bg:#f5f7fb;--card:#fff;--text:#18202a;--muted:#687384;
+  --accent:#6750a4;--accent2:#eaddff;--line:#dfe3ea;--ok:#167c4b;--bad:#b3261e;
+  --sender:#e8f0fe;--receiver:#f3e8ff;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+header{padding:28px 20px 18px;max-width:1100px;margin:auto}
+h1{margin:0;font-size:clamp(30px,5vw,48px);letter-spacing:-1px}
+.sub{color:var(--muted);margin-top:6px}
+nav{display:flex;gap:8px;flex-wrap:wrap;max-width:1100px;margin:0 auto 18px;padding:0 20px}
+button,.tab{border:0;border-radius:14px;padding:11px 15px;font:inherit;cursor:pointer}
+.tab{background:var(--card);color:var(--text);box-shadow:0 1px 4px #0001}
+.tab.active{background:var(--accent);color:white}
+.tab .beta{font-size:10px;background:#e65100;color:#fff;padding:2px 6px;border-radius:6px;margin-left:4px;font-weight:700;letter-spacing:.3px}
+main{max-width:1100px;margin:auto;padding:0 20px 40px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:20px;box-shadow:0 5px 24px #0000000b}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px}
+.letter{padding:0;min-height:120px;background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;text-align:left;cursor:pointer}
+.letter:hover{transform:translateY(-2px);box-shadow:0 8px 20px #0001}
+.letter .mini{height:78px;background:linear-gradient(145deg,#f1ecff,#fff);display:grid;place-items:center}
+.letter b{display:block;font-size:26px;padding:6px 13px 2px}
+.letter .kw{display:block;font-size:12px;color:var(--muted);padding:0 13px 8px;line-height:1.2}
+.letter .num{display:block;font-size:11px;color:var(--accent);padding:0 13px 8px;font-weight:600}
+.detail{display:grid;grid-template-columns:minmax(280px,1fr) minmax(280px,1fr);gap:20px;align-items:center}
+@media(max-width:700px){.detail{grid-template-columns:1fr}}
+.bigletter{font-size:80px;font-weight:800}
+.info h2{font-size:42px;margin:0 0 4px}
+.info .phonetic{font-size:22px;color:var(--accent);font-weight:600;margin:0 0 4px}
+.info .num-label{font-size:16px;color:var(--muted);margin:0 0 8px}
+.info p{color:var(--muted);line-height:1.5}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.primary{background:var(--accent);color:white}
+.secondary{background:var(--accent2);color:#3b2b63}
+.hidden{display:none!important}
+.training{text-align:center}
+.quiz-svg{max-width:360px;margin:auto}
+.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:500px;margin:20px auto}
+.answer{background:var(--bg);border:1px solid var(--line)}
+.answer.correct{background:#dff5e9;border-color:#62b98c;color:var(--ok)}
+.answer.wrong{background:#fde8e7;border-color:#e88b86;color:var(--bad)}
+.status{min-height:28px;font-weight:650}
+.search{width:100%;padding:13px 15px;border:1px solid var(--line);border-radius:14px;font:inherit;margin-bottom:14px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:14px;margin-top:14px}
+svg{display:block;width:100%;height:auto}
+.toggle-row{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.toggle-row label{display:inline-flex;align-items:center;gap:8px;cursor:pointer;user-select:none;font-size:15px}
+.toggle-row input[type="checkbox"]{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
+.section-title{font-size:18px;font-weight:700;margin:20px 0 10px;color:var(--text)}
+.special-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:8px}
+.special{padding:0;min-height:120px;background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;text-align:left;cursor:pointer}
+.special:hover{transform:translateY(-2px);box-shadow:0 8px 20px #0001}
+.special .mini{height:78px;background:linear-gradient(145deg,#fff3e0,#fff);display:grid;place-items:center}
+.special b{display:block;font-size:15px;padding:8px 12px;line-height:1.25}
+
+/* Reden */
+.reden-wrap{display:flex;flex-direction:column;height:min(70vh,620px)}
+.chat-log{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:12px;background:var(--bg);border-radius:16px;border:1px solid var(--line);margin-bottom:14px}
+.msg{max-width:85%;padding:12px 14px;border-radius:18px;position:relative;cursor:context-menu;user-select:none}
+.msg.sender{align-self:flex-end;background:var(--sender);border:1px solid #c5d8f5}
+.msg.receiver{align-self:flex-start;background:var(--receiver);border:1px solid #d4b8f0}
+.msg .who{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
+.msg .text{font-size:16px;word-break:break-word}
+.msg .play-area{margin-top:10px;text-align:center}
+.msg .play-svg{max-width:180px;margin:0 auto}
+.msg .play-letter{font-size:22px;font-weight:800;margin-top:4px}
+.msg .play-progress{font-size:12px;color:var(--muted)}
+.msg.selected{outline:2px solid var(--accent);outline-offset:2px}
+.msg-empty{color:var(--muted);text-align:center;padding:40px 20px;font-size:15px}
+.reden-controls{display:flex;flex-direction:column;gap:10px}
+.role-select{display:flex;gap:8px;flex-wrap:wrap}
+.role-select button{padding:8px 14px;border-radius:12px;background:var(--bg);border:1px solid var(--line);font:inherit;cursor:pointer}
+.role-select button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.input-row{display:flex;gap:10px;flex-wrap:wrap}
+.input-row input{flex:1;min-width:160px;padding:13px 15px;border:1px solid var(--line);border-radius:14px;font:inherit}
+.ctx-menu{position:fixed;z-index:1000;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px #0002;padding:6px;min-width:140px;display:none}
+.ctx-menu button{display:block;width:100%;text-align:left;padding:10px 14px;border:0;background:none;font:inherit;cursor:pointer;border-radius:8px}
+.ctx-menu button:hover{background:var(--accent2)}
+.hint{font-size:13px;color:var(--muted);margin-top:6px}
+.aufgaben{background:var(--bg);border-radius:16px;padding:16px 18px;margin-top:16px;border:1px solid var(--line)}
+.aufgaben h3{margin:0 0 10px;font-size:17px}
+.aufgaben ol{margin:0;padding-left:20px;color:var(--muted);line-height:1.55}
+.aufgaben li{margin-bottom:6px}
+</style>
+</head>
+<body>
+<header>
+  <h1>👋 Winkeralphabet</h1>
+  <div class="sub">Das internationale Semaphore-Alphabet — modern, offline und ohne den alten .htm-Dinosaurier.</div>
+</header>
+
+<nav>
+  <button class="tab active" data-tab="alphabet"><span class="material-symbols-outlined">menu_book</span> Alphabet</button>
+  <button class="tab" data-tab="trainer"><span class="material-symbols-outlined">quiz</span> Trainer</button>
+  <button class="tab" data-tab="words"><span class="material-symbols-outlined">edit_note</span> Wörter</button>
+  <button class="tab" data-tab="reden"><span class="material-symbols-outlined">forum</span> Reden <span class="beta">BETA</span></button>
+  <button class="tab" data-tab="info"><span class="material-symbols-outlined">info</span> Info</button>
+</nav>
+
+<main>
+<section id="alphabet" class="panel">
+  <div class="toggle-row">
+    <label>
+      <input type="checkbox" id="showKeywords">
+      Schlüsselwörter anzeigen
+    </label>
+    <label>
+      <input type="checkbox" id="showNumbers">
+      Ziffern anzeigen
+    </label>
+  </div>
+  <input id="search" class="search" placeholder="Buchstaben, Schlüsselwörter oder Ziffern suchen …">
+  <div id="grid" class="grid"></div>
+
+  <div class="section-title">Sondersignale</div>
+  <div id="specialGrid" class="special-grid"></div>
+</section>
+
+<section id="detail" class="panel hidden">
+  <div class="detail">
+    <div id="detailSvg"></div>
+    <div class="info">
+      <div class="bigletter" id="detailLetter">A</div>
+      <h2 id="detailName">A</h2>
+      <div class="phonetic" id="detailPhonetic">Alfa</div>
+      <div class="num-label" id="detailNum"></div>
+      <p id="detailDesc">Die beiden Flaggen werden in festen 45°-Richtungen gehalten. Die Darstellung zeigt die Stellung aus Sicht der beobachtenden Person.</p>
+      <div class="actions">
+        <button class="primary" id="back">← Zurück</button>
+        <button class="secondary" id="random">Zufälliger Buchstabe</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="trainer" class="panel training hidden">
+  <h2>🎯 Welcher Buchstabe ist das?</h2>
+  <p>Schau auf die Flaggenstellung und wähle die richtige Antwort.</p>
+  <div id="quizSvg" class="quiz-svg"></div>
+  <div id="status" class="status"></div>
+  <div id="answers" class="answers"></div>
+  <button class="primary" id="next">Nächste Runde</button>
+</section>
+
+<section id="words" class="panel hidden">
+  <h2>📝 Wörter winken</h2>
+  <p class="sub">Gib ein Wort ein und gehe Buchstabe für Buchstabe durch die Winkeralphabet-Darstellung.</p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin:15px 0">
+    <input id="word" class="search" style="margin:0;flex:1;min-width:200px" maxlength="30" placeholder="z. B. HALLO oder 123">
+    <button class="primary" id="showWord">▶ Start</button>
+  </div>
+  <div id="wordArea" class="hidden" style="text-align:center">
+    <div id="wordVisual" style="max-width:420px;margin:auto"></div>
+    <h2 id="wordLetter">H</h2>
+    <div id="wordPhonetic" class="phonetic" style="font-size:18px;color:var(--accent);margin:4px 0"></div>
+    <div id="wordProgress" class="sub">1 / 5</div>
+    <div class="actions" style="justify-content:center">
+      <button class="secondary" id="prevWord">← Zurück</button>
+      <button class="secondary" id="nextWord">Weiter →</button>
+    </div>
+  </div>
+</section>
+
+<section id="reden" class="panel hidden">
+  <h2>💬 Reden <span class="beta" style="font-size:12px;vertical-align:middle">BETA</span></h2>
+  <p class="sub">Simuliere ein Gespräch: Sender (rechts) und Empfänger (links). Nach dem Senden werden die Buchstaben nacheinander gewunken.</p>
+  <div class="reden-wrap">
+    <div class="chat-log" id="chatLog">
+      <div class="msg-empty" id="chatEmpty">Noch keine Nachrichten. Schreibe etwas und sende es!</div>
+    </div>
+    <div class="reden-controls">
+      <div class="role-select">
+        <button type="button" class="active" data-role="sender" id="roleSender">Sender (rechts)</button>
+        <button type="button" data-role="receiver" id="roleReceiver">Empfänger (links)</button>
+      </div>
+      <div class="input-row">
+        <input id="redenInput" maxlength="40" placeholder="Nachricht eingeben …" autocomplete="off">
+        <button class="primary" id="redenSend">Senden</button>
+      </div>
+      <div class="hint">Tipp: Rechtsklick auf eine Nachricht zum Löschen. Buchstaben A–Z und Ziffern 0–9 werden gewunken.</div>
+    </div>
+  </div>
+</section>
+
+<section id="info" class="panel hidden">
+  <h2>Was ist das Winkeralphabet?</h2>
+  <p>Das Winkeralphabet dient zur optischen Nachrichtenübermittlung zwischen Schiffen oder an Land. Es können Buchstaben und Ziffern übermittelt werden. Buchstaben und Ziffern werden durch die Stellung beschrieben, in der der Winker zwei Flaggen hält.</p>
+  <p>Die möglichen Richtungen liegen in 45°-Schritten. Diese Version ist eine eigenständige HTML-Alternative für den Unterricht — offline, mit SVG und ohne alte Bilddateien.</p>
+  <p><strong>Ziffern:</strong> A=1, B=2, C=3, D=4, E=5, F=6, G=7, H=8, I=9, K=0. Vor Ziffern wird das Signal «Ziffern» gesendet.</p>
+  <p><strong>Sondersignale:</strong> Pause/Leer (Leerzeichen), Fehler (Irrtum), Ziffern (Umschaltung auf Zahlen).</p>
+  <div class="legend">
+    <span>🟥 Flaggen</span><span>⚪ Winker</span><span>↗ 45°-Schritte</span>
+  </div>
+
+  <div class="aufgaben">
+    <h3>📋 Aufgaben (Unterricht)</h3>
+    <ol>
+      <li>Teilt eure Gruppe in zwei Teilgruppen (Sender, Empfänger).</li>
+      <li>Formuliert eine Nachricht, codiert diese und sendet diese an die Empfängergruppe.</li>
+      <li>Kontrolliert, ob die Nachricht richtig decodiert worden ist.</li>
+    </ol>
+    <p style="margin:12px 0 0;font-size:14px;color:var(--muted)">Tipp: Nutzt die Registerkarte «Reden», um das Senden und Empfangen zu üben.</p>
+  </div>
+</section>
+</main>
+
+<div class="ctx-menu" id="ctxMenu">
+  <button type="button" id="ctxDelete">🗑️ Nachricht löschen</button>
+</div>
+
+<script>
+const map={
+  A:[0,45],B:[0,90],C:[0,135],D:[0,180],E:[0,225],F:[0,270],G:[0,315],
+  H:[45,90],I:[45,135],K:[45,180],L:[45,225],M:[45,270],N:[45,315],
+  O:[90,135],P:[90,180],Q:[90,225],R:[90,270],S:[90,315],
+  T:[135,180],U:[135,225],Y:[135,270],
+  V:[180,315],W:[225,270],X:[225,315],Z:[270,315],
+  J:[180,270]
+};
+// Special signals (approximate classic positions)
+const specials={
+  "ZIFFERN":{angles:[0,0], label:"Ziffern", desc:"Umschaltung auf Ziffernmodus. Danach werden A–I und K als Zahlen 1–9 und 0 gelesen."},
+  "PAUSE":  {angles:[225,315], label:"Pause / Leer", desc:"Pause oder Leerzeichen zwischen Wörtern bzw. Gruppen."},
+  "FEHLER": {angles:[45,315], label:"Fehler", desc:"Fehlersignal (Irrtum). Zeigt an, dass das Vorhergehende ungültig war."}
+};
+const names={
+  A:"Alfa",B:"Bravo",C:"Charlie",D:"Delta",E:"Echo",F:"Foxtrott",
+  G:"Golf",H:"Hotel",I:"India",J:"Juliett",K:"Kilo",L:"Lima",
+  M:"Mike",N:"November",O:"Oscar",P:"Papa",Q:"Quebec",R:"Romeo",
+  S:"Sierra",T:"Tango",U:"Uniform",V:"Victor",W:"Whisky",X:"X-Ray",
+  Y:"Yankee",Z:"Zulu"
+};
+// Digit mapping from the textbook
+const digits={A:"1",B:"2",C:"3",D:"4",E:"5",F:"6",G:"7",H:"8",I:"9",K:"0"};
+const digitToLetter={ "1":"A","2":"B","3":"C","4":"D","5":"E","6":"F","7":"G","8":"H","9":"I","0":"K" };
+
+const letters=Object.keys(map).sort();
+const $=s=>document.querySelector(s);
+
+function armEnd(angle, len=105){
+  const r=(angle-90)*Math.PI/180;
+  return {x:150+Math.cos(r)*len,y:155+Math.sin(r)*len};
+}
+function semaphore(letterOrKey, showLabel=true){
+  let angles, label;
+  if(specials[letterOrKey]){
+    angles=specials[letterOrKey].angles;
+    label=specials[letterOrKey].label;
+  } else {
+    angles=map[letterOrKey];
+    label=letterOrKey;
+  }
+  if(!angles) return "";
+  const [l,r]=angles;
+  const a=armEnd(l),b=armEnd(r);
+  return `<svg viewBox="0 0 300 330" aria-label="Winkeralphabet ${label}">
+    <defs><linearGradient id="shirt" x1="0" x2="1"><stop offset="0" stop-color="#666"/><stop offset="1" stop-color="#999"/></linearGradient></defs>
+    <circle cx="150" cy="82" r="27" fill="#f0c7a8"/>
+    <path d="M128 75 Q150 45 172 75" fill="none" stroke="#333" stroke-width="12" stroke-linecap="round"/>
+    <rect x="121" y="110" width="58" height="105" rx="22" fill="url(#shirt)"/>
+    <line x1="150" y1="125" x2="${a.x}" y2="${a.y}" stroke="#f0c7a8" stroke-width="18" stroke-linecap="round"/>
+    <line x1="150" y1="125" x2="${b.x}" y2="${b.y}" stroke="#f0c7a8" stroke-width="18" stroke-linecap="round"/>
+    <line x1="${a.x}" y1="${a.y}" x2="${a.x+(a.x-150)*.22}" y2="${a.y+(a.y-125)*.22}" stroke="#a41515" stroke-width="14" stroke-linecap="round"/>
+    <line x1="${b.x}" y1="${b.y}" x2="${b.x+(b.x-150)*.22}" y2="${b.y+(b.y-125)*.22}" stroke="#a41515" stroke-width="14" stroke-linecap="round"/>
+    ${showLabel ? `<text x="150" y="295" text-anchor="middle" font-size="22" font-weight="800" fill="currentColor">${label}</text>` : ""}
+  </svg>`;
+}
+
+/* ========== Alphabet ========== */
+function showKeywords(){ return $("#showKeywords")?.checked || false; }
+function showNumbers(){ return $("#showNumbers")?.checked || false; }
+
+function renderGrid(filter=""){
+  const q=filter.trim().toUpperCase();
+  const showKw=showKeywords();
+  const showNum=showNumbers();
+  $("#grid").innerHTML=letters.filter(x=>{
+    if(!q) return true;
+    return x.includes(q) || (names[x]||"").toUpperCase().includes(q) || (digits[x]||"")===q;
+  }).map(l=>{
+    const kw=showKw ? `<span class="kw">${names[l]||""}</span>` : "";
+    const num=showNum && digits[l] ? `<span class="num">= ${digits[l]}</span>` : "";
+    return `<button class="letter" data-letter="${l}"><div class="mini">${semaphore(l)}</div><b>${l}</b>${kw}${num}</button>`;
+  }).join("");
+  document.querySelectorAll(".letter").forEach(b=>b.onclick=()=>showDetail(b.dataset.letter));
+
+  // Specials
+  $("#specialGrid").innerHTML=Object.keys(specials).map(key=>{
+    const s=specials[key];
+    return `<button class="special" data-key="${key}"><div class="mini">${semaphore(key)}</div><b>${s.label}</b></button>`;
+  }).join("");
+  document.querySelectorAll(".special").forEach(b=>b.onclick=()=>showDetail(b.dataset.key, true));
+}
+
+function showDetail(key, isSpecial=false){
+  $("#alphabet").classList.add("hidden");
+  $("#detail").classList.remove("hidden");
+  if(isSpecial || specials[key]){
+    const s=specials[key];
+    $("#detailLetter").textContent="✦";
+    $("#detailName").textContent=s.label;
+    $("#detailPhonetic").textContent="";
+    $("#detailNum").textContent="";
+    $("#detailDesc").textContent=s.desc;
+    $("#detailSvg").innerHTML=semaphore(key);
+  } else {
+    $("#detailLetter").textContent=key;
+    $("#detailName").textContent=key;
+    $("#detailPhonetic").textContent=names[key]||"";
+    $("#detailNum").textContent=digits[key] ? `Ziffer: ${digits[key]}` : "";
+    $("#detailDesc").textContent="Die beiden Flaggen werden in festen 45°-Richtungen gehalten. Die Darstellung zeigt die Stellung aus Sicht der beobachtenden Person.";
+    $("#detailSvg").innerHTML=semaphore(key);
+  }
+}
+
+$("#back").onclick=()=>{$("#detail").classList.add("hidden");$("#alphabet").classList.remove("hidden")};
+$("#random").onclick=()=>showDetail(letters[Math.floor(Math.random()*letters.length)]);
+$("#search").oninput=e=>renderGrid(e.target.value);
+$("#showKeywords").onchange=()=>renderGrid($("#search").value);
+$("#showNumbers").onchange=()=>renderGrid($("#search").value);
+
+/* ========== Wörter ========== */
+let word=[], wi=0;
+function startWord(){
+  const raw=$("#word").value.toUpperCase();
+  word=[];
+  for(const c of raw){
+    if(map[c]) word.push(c);
+    else if(digitToLetter[c]) word.push(digitToLetter[c]);
+  }
+  if(!word.length)return;
+  wi=0;
+  $("#wordArea").classList.remove("hidden");
+  renderWord();
+}
+function renderWord(){
+  const l=word[wi];
+  $("#wordVisual").innerHTML=semaphore(l);
+  $("#wordLetter").textContent=l + (digits[l] ? ` (=${digits[l]})` : "");
+  $("#wordPhonetic").textContent=names[l]||"";
+  $("#wordProgress").textContent=`${wi+1} / ${word.length}`;
+}
+$("#showWord")?.addEventListener("click",startWord);
+$("#prevWord")?.addEventListener("click",()=>{if(word.length){wi=(wi-1+word.length)%word.length;renderWord()}});
+$("#nextWord")?.addEventListener("click",()=>{if(word.length){wi=(wi+1)%word.length;renderWord()}});
+
+/* ========== Trainer ========== */
+let current=null;
+function newQuestion(){
+  $("#answers").innerHTML="";
+  current=letters[Math.floor(Math.random()*letters.length)];
+  $("#quizSvg").innerHTML=semaphore(current, false);
+  $("#status").textContent="";
+  const wrong=letters.filter(x=>x!==current).sort(()=>Math.random()-.5).slice(0,3);
+  [current,...wrong].sort(()=>Math.random()-.5).forEach(l=>{
+    const b=document.createElement("button");
+    b.className="answer";
+    b.textContent=l + (digits[l] ? ` (${digits[l]})` : "");
+    b.onclick=()=>check(b,l);
+    $("#answers").appendChild(b);
+  });
+}
+function check(btn,l){
+  document.querySelectorAll(".answer").forEach(b=>b.disabled=true);
+  if(l===current){
+    btn.classList.add("correct");
+    $("#status").textContent="✅ Richtig! ("+(names[current]||current)+(digits[current]?" = "+digits[current]:"")+")";
+  } else {
+    btn.classList.add("wrong");
+    $("#status").textContent=`❌ Fast — gesucht war ${current} (${names[current]||""}${digits[current]?" = "+digits[current]:""}).`;
+  }
+}
+$("#next").onclick=()=>newQuestion();
+
+/* ========== Reden (BETA) ========== */
+let redenRole="sender";
+let messages=[];
+let selectedMsgId=null;
+let playTimers={};
+const FRAME_MS=900;
+
+function setRole(role){
+  redenRole=role;
+  $("#roleSender").classList.toggle("active", role==="sender");
+  $("#roleReceiver").classList.toggle("active", role==="receiver");
+}
+$("#roleSender").onclick=()=>setRole("sender");
+$("#roleReceiver").onclick=()=>setRole("receiver");
+
+function updateChatEmpty(){
+  const empty=$("#chatEmpty");
+  if(empty) empty.style.display=messages.length? "none":"block";
+}
+
+function stopPlay(id){
+  if(playTimers[id]){ clearInterval(playTimers[id]); delete playTimers[id]; }
+}
+
+function playMessage(msgEl, letters){
+  const id=msgEl.dataset.id;
+  stopPlay(id);
+  if(!letters.length){
+    msgEl.querySelector(".play-area").innerHTML=`<div class="play-progress">Keine gültigen Zeichen</div>`;
+    return;
+  }
+  let i=0;
+  const area=msgEl.querySelector(".play-area");
+  function showFrame(){
+    const l=letters[i];
+    const extra=digits[l] ? ` <span style="font-size:14px;color:var(--muted)">=${digits[l]}</span>` : "";
+    area.innerHTML=`
+      <div class="play-svg">${semaphore(l)}</div>
+      <div class="play-letter">${l}${extra} <span style="font-size:14px;color:var(--muted)">${names[l]||""}</span></div>
+      <div class="play-progress">${i+1} / ${letters.length}</div>
+    `;
+    i=(i+1)%letters.length;
+  }
+  showFrame();
+  playTimers[id]=setInterval(showFrame, FRAME_MS);
+}
+
+function renderMessages(){
+  const log=$("#chatLog");
+  log.querySelectorAll(".msg").forEach(m=>m.remove());
+  messages.forEach(m=>{
+    const div=document.createElement("div");
+    div.className=`msg ${m.role}`;
+    div.dataset.id=m.id;
+    div.innerHTML=`
+      <div class="who">${m.role==="sender"?"Sender":"Empfänger"}</div>
+      <div class="text">${escapeHtml(m.text)}</div>
+      <div class="play-area"></div>
+    `;
+    div.addEventListener("contextmenu",e=>{
+      e.preventDefault();
+      selectMsg(m.id, div);
+      showCtx(e.clientX, e.clientY);
+    });
+    div.addEventListener("click",()=>{ selectMsg(m.id, div); hideCtx(); });
+    log.appendChild(div);
+    playMessage(div, m.letters);
+  });
+  updateChatEmpty();
+  log.scrollTop=log.scrollHeight;
+}
+
+function escapeHtml(s){
+  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function selectMsg(id, el){
+  selectedMsgId=id;
+  document.querySelectorAll(".msg").forEach(m=>m.classList.remove("selected"));
+  if(el) el.classList.add("selected");
+}
+function deleteSelected(){
+  if(selectedMsgId==null) return;
+  stopPlay(selectedMsgId);
+  messages=messages.filter(m=>m.id!==selectedMsgId);
+  selectedMsgId=null;
+  hideCtx();
+  renderMessages();
+}
+function showCtx(x,y){
+  const menu=$("#ctxMenu");
+  menu.style.display="block";
+  menu.style.left=Math.min(x, window.innerWidth-160)+"px";
+  menu.style.top=Math.min(y, window.innerHeight-60)+"px";
+}
+function hideCtx(){ $("#ctxMenu").style.display="none"; }
+
+$("#ctxDelete").onclick=()=>deleteSelected();
+document.addEventListener("click",e=>{
+  if(!e.target.closest("#ctxMenu") && !e.target.closest(".msg")) hideCtx();
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape") hideCtx();
+  if(e.key==="Delete" && selectedMsgId!=null) deleteSelected();
+});
+
+function sendMessage(){
+  const input=$("#redenInput");
+  const text=input.value.trim();
+  if(!text) return;
+  const letters=[];
+  for(const c of text.toUpperCase()){
+    if(map[c]) letters.push(c);
+    else if(digitToLetter[c]) letters.push(digitToLetter[c]);
+  }
+  const id=Date.now()+"_"+Math.random().toString(36).slice(2,7);
+  messages.push({id, role:redenRole, text, letters});
+  input.value="";
+  renderMessages();
+}
+$("#redenSend").onclick=sendMessage;
+$("#redenInput").addEventListener("keydown",e=>{
+  if(e.key==="Enter"){ e.preventDefault(); sendMessage(); }
+});
+
+/* ========== Tabs ========== */
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+  t.classList.add("active");
+  ["alphabet","trainer","words","reden","info"].forEach(id=>$("#"+id).classList.add("hidden"));
+  $("#"+t.dataset.tab).classList.remove("hidden");
+  if(t.dataset.tab==="trainer") newQuestion();
+  if(t.dataset.tab==="reden") updateChatEmpty();
+});
+
+renderGrid();
+</script>
+</body>
+</html>
